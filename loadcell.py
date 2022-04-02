@@ -17,7 +17,7 @@ realPath = str(Path(path).parent)
 com_port = args.COM
 out_file = args.file
 
-df = pd.DataFrame(columns = ['Load Cell'])
+df = pd.DataFrame(columns = ['timestamp', 'Load Cell'])
 
 try:
     arduino = serial.Serial(com_port, 115200)
