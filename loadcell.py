@@ -21,6 +21,7 @@ df = pd.DataFrame(columns = ['Timestamp', 'Load Cell'])
 
 try:
     arduino = serial.Serial(com_port, 115200)
+    print("connection to arduino successful, script running!")
 except:
     print('Could not find Arduino on ' + com_port)
     exit()
@@ -33,5 +34,6 @@ while True:
         df.to_csv(path + '\\' + out_file)
         exit()
 
-    serial_dat.append(arduino.readline().decode().strip())
-    timestamp.append(dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+    if (arduino.in_waiting):
+        serial_dat.append(arduino.readline().decode().strip())
+        timestamp.append(dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
