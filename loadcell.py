@@ -3,7 +3,7 @@ import serial
 import argparse
 import pandas as pd
 import os
-from pathlib import Path
+import datetime as dt
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--COM', help='Enter your arduino\'s COM port', type = str, default = 'COM3')
@@ -11,13 +11,13 @@ parser.add_argument('--file', help='Enter desired output file name', type = str,
 args = parser.parse_args()
 
 serial_dat = []
-path = os.path.abspath(__file__)
-realPath = str(Path(path).parent)
+timestamp = []
+path = os.path.dirname(__file__)
 
 com_port = args.COM
 out_file = args.file
 
-df = pd.DataFrame(columns = ['timestamp', 'Load Cell'])
+df = pd.DataFrame(columns = ['Timestamp', 'Load Cell'])
 
 try:
     arduino = serial.Serial(com_port, 115200)
@@ -29,7 +29,9 @@ while True:
     if keyboard.is_pressed(' '):
         print('Program halted by keypress') 
         df['Load Cell'] = serial_dat
-        df.to_csv(realPath + '\\' + out_file)
+        df['Timestamp'] = timestamp
+        df.to_csv(path + '\\' + out_file)
         exit()
 
-    serial_dat.append(arduino.readline())
+    serial_dat.append(arduino.readline().decode().strip())
+    timestamp.append(dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))

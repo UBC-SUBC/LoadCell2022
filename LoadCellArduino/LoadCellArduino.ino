@@ -18,6 +18,6 @@ void loop() {
     Serial.println(reading);
   }
 
-  delay(1000);
+  delay(100);
   
 }
