@@ -1,4 +1,4 @@
-#include "HX711.h"
+#include "HX711.h" //By Rob Tilaart
 
 // HX711 circuit wiring
 const int LOADCELL_DOUT_PIN = 2;
